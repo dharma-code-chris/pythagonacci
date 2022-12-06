@@ -50,6 +50,9 @@ public class FiboNodeImpl implements FiboNode {
         return values;
     }
 
+    /**
+     * TODO: From the Mathologer video there is actually a way to calculate the parent using some geometry.
+     */
     @Override
     public FiboNode getParent() {
         return parent;
@@ -82,12 +85,60 @@ public class FiboNodeImpl implements FiboNode {
         return children;
     }
 
+    private boolean isEndRecursion() {
+        return this.id.length() > maxDepth;
+    }
+
     @Override
     public String toStringRecursive() {
-        // Clockwise matrix from top-left
-        String node = String.format("%s\n%d\t%d\n%d\t%d\n", id, values[0], values[1], values[3], values[2]);
+        String node = toString();
         // Exit condition: check ID length
-        return node + (this.id.length() <= maxDepth ? getChildren().toStringRecursive() : "");
+        return node + (isEndRecursion() ? "" : getChildren().toStringRecursive());
+    }
+
+    @Override
+    public String toString() {
+        // Clockwise matrix from top-left
+        return String.format("%s:\n%s\n%d\t%d\n%d\t%d\n", id, getPythagoreanTripleString(), values[0], values[1],
+                values[3], values[2]);
+    }
+
+    @Override
+    public long getPythagoreanTripleSideA() {
+        return values[0] * values[3];
+    }
+
+    @Override
+    public long getPythagoreanTripleSideB() {
+        return 2 * values[1] * values[2];
+    }
+
+    @Override
+    public long getPythagoreanTripleHypotenuse() {
+        return values[0] * values[2] + values[1] * values[3];
+    }
+
+    @Override
+    public String getPythagoreanTripleString() {
+        return String.format("%d^2 + %d^2 = %d^2", getPythagoreanTripleSideA(), getPythagoreanTripleSideB(),
+                getPythagoreanTripleHypotenuse());
+    }
+
+    @Override
+    public boolean validate() {
+        long a = getPythagoreanTripleSideA();
+        long b = getPythagoreanTripleSideB();
+        long c = getPythagoreanTripleHypotenuse();
+        boolean isValid = a * a + b * b == c * c;
+        if (!isValid) {
+            throw new IllegalStateException(id + " is invalid!\n" + this);
+        }
+        return true;
+    }
+
+    @Override
+    public boolean validateRecursive() {
+        return validate() && (isEndRecursion() || getChildren().validateRecursive());
     }
 
     // val0        val1

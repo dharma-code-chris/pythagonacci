@@ -23,4 +23,14 @@ public interface FiboNode {
 
     String toStringRecursive();
 
+    String getPythagoreanTripleString();
+
+    long getPythagoreanTripleSideA();
+    long getPythagoreanTripleSideB();
+    long getPythagoreanTripleHypotenuse();
+
+    boolean validate();
+
+    boolean validateRecursive();
+
 }

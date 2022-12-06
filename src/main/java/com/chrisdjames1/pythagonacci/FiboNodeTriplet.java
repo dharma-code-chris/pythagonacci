@@ -33,7 +33,22 @@ public class FiboNodeTriplet implements Triplet<FiboNode> {
     }
 
     @Override
+    public String toString() {
+        return x.toString() + y.toString() + z.toString();
+    }
+
+    @Override
     public String toStringRecursive() {
         return x.toStringRecursive() + y.toStringRecursive() + z.toStringRecursive();
+    }
+
+    @Override
+    public boolean validate() {
+        return x.validate() && y.validate() && z.validate();
+    }
+
+    @Override
+    public boolean validateRecursive() {
+        return x.validateRecursive() && y.validateRecursive() && z.validateRecursive();
     }
 }

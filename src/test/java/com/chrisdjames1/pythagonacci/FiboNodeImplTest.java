@@ -2,6 +2,8 @@ package com.chrisdjames1.pythagonacci;
 
 import org.junit.Test;
 
+import static org.junit.Assert.assertTrue;
+
 public class FiboNodeImplTest {
 
     @Test
@@ -32,6 +34,12 @@ public class FiboNodeImplTest {
     public void testDepthDefault() {
         String fiboNodeString = new FiboNodeImpl().toStringRecursive();
         System.out.println(fiboNodeString);
+    }
+
+    @Test
+    public void testValidate() {
+        boolean isValid = new FiboNodeImpl().validateRecursive();
+        assertTrue(isValid);
     }
 
 }
