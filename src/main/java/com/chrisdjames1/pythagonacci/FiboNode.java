@@ -29,8 +29,8 @@ public interface FiboNode {
     long getPythagoreanTripleSideB();
     long getPythagoreanTripleHypotenuse();
 
-    boolean validate();
+    boolean validateIsPythagoreanTriple();
 
-    boolean validateRecursive();
+    boolean validateIsPythagoreanTripleRecursive();
 
 }

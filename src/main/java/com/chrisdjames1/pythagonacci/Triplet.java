@@ -12,8 +12,8 @@ public interface Triplet <T> {
 
     String toStringRecursive();
 
-    boolean validate();
+    boolean validateIsPythagoreanTriple();
 
-    boolean validateRecursive();
+    boolean validateIsPythagoreanTripleRecursive();
 
 }

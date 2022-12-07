@@ -2,8 +2,13 @@ package com.chrisdjames1.pythagonacci;
 
 public class FiboNodeImpl implements FiboNode {
 
+    private static final int DEFAULT_MAX_DEPTH = 5;
+    private static final long[] DEFAULT_VALUES = new long[]{1, 1, 2, 3};
+
     // Exit condition control - important because calling toStringRecursive() does what it says on the tin.
-    private static int maxDepth = 5;
+    private static int maxDepth;
+
+    private static final boolean PRIME_ANALYSIS = true;
 
     // The id is an address in the node tree. The root node is 0. Child nodes are X, Y or Z.
     // e.g. id == "0XYYXZ" means that the node is located at a depth of 5 and can be found by following the path:
@@ -24,16 +29,27 @@ public class FiboNodeImpl implements FiboNode {
     private Triplet<FiboNode> children;
 
     public FiboNodeImpl() {
-        // Root
-        this.id = "0";
-        this.values = new long[]{1, 1, 2, 3};
+        this(DEFAULT_MAX_DEPTH);
     }
 
     public FiboNodeImpl(int maxDepth) {
-        this();
-        FiboNodeImpl.maxDepth = maxDepth;
+        this(maxDepth, DEFAULT_VALUES);
     }
 
+    public FiboNodeImpl(long[] values) {
+        this(DEFAULT_MAX_DEPTH, values);
+    }
+
+    public FiboNodeImpl(int maxDepth, long[] values) {
+        FiboNodeImpl.maxDepth = maxDepth;
+        if (values.length != 4) {
+            throw new IllegalArgumentException("values must be length 4");
+        }
+        this.values = values;
+        this.id = "0";
+    }
+
+    // Constructor for spawning children
     public FiboNodeImpl(long[] values, FiboNode parent, String relativeId) {
         this.values = values;
         this.parent = parent;
@@ -99,8 +115,30 @@ public class FiboNodeImpl implements FiboNode {
     @Override
     public String toString() {
         // Clockwise matrix from top-left
-        return String.format("%s:\n%s\n%d\t%d\n%d\t%d\n", id, getPythagoreanTripleString(), values[0], values[1],
-                values[3], values[2]);
+        return String.format("%s:\n%s%d\t%d\n%d\t%d\n%s",
+                id,
+                getPythagoreanTripleString(),
+                values[0], values[1],
+                values[3], values[2],
+                getPrimeAnalysis());
+    }
+
+    private String getPrimeAnalysis() {
+        if (!PRIME_ANALYSIS) {
+            return "";
+        }
+        // Only the hypotenuse has the potential to be prime
+        boolean cIsPrime = isPrime(getPythagoreanTripleHypotenuse());
+        int val0IsPrime = isPrime(values[0]) ? 1 : 0;
+        int val1IsPrime = isPrime(values[1]) ? 1 : 0;
+        int val2IsPrime = isPrime(values[2]) ? 1 : 0;
+        int val3IsPrime = isPrime(values[3]) ? 1 : 0;
+
+        // Clockwise from top-left
+        return String.format("Prime analysis:\nh: %b\n%d\t%d\n%d\t%d\n",
+                cIsPrime,
+                val0IsPrime, val1IsPrime,
+                val3IsPrime, val2IsPrime);
     }
 
     @Override
@@ -120,12 +158,12 @@ public class FiboNodeImpl implements FiboNode {
 
     @Override
     public String getPythagoreanTripleString() {
-        return String.format("%d^2 + %d^2 = %d^2", getPythagoreanTripleSideA(), getPythagoreanTripleSideB(),
+        return String.format("%d^2 + %d^2 ?= %d^2\n", getPythagoreanTripleSideA(), getPythagoreanTripleSideB(),
                 getPythagoreanTripleHypotenuse());
     }
 
     @Override
-    public boolean validate() {
+    public boolean validateIsPythagoreanTriple() {
         long a = getPythagoreanTripleSideA();
         long b = getPythagoreanTripleSideB();
         long c = getPythagoreanTripleHypotenuse();
@@ -137,8 +175,9 @@ public class FiboNodeImpl implements FiboNode {
     }
 
     @Override
-    public boolean validateRecursive() {
-        return validate() && (isEndRecursion() || getChildren().validateRecursive());
+    public boolean validateIsPythagoreanTripleRecursive() {
+        return validateIsPythagoreanTriple() &&
+                (isEndRecursion() || getChildren().validateIsPythagoreanTripleRecursive());
     }
 
     // val0        val1
@@ -146,5 +185,16 @@ public class FiboNodeImpl implements FiboNode {
     private static long[] valuesFromFirst2(long val0, long val1) {
         long val2 = val0 + val1;
         return new long[]{val0, val1, val2, val2 + val1};
+    }
+
+    private static boolean isPrime(long n) {
+        if (n < 2) return false;
+        if (n == 2 || n == 3) return true;
+        if (n % 2 == 0 || n % 3 == 0) return false;
+        long sqrtN = (long) Math.sqrt(n) + 1;
+        for (long i = 6L; i <= sqrtN; i += 6) {
+            if (n % (i - 1) == 0 || n % (i + 1) == 0) return false;
+        }
+        return true;
     }
 }

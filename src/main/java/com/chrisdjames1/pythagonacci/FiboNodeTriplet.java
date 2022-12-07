@@ -43,12 +43,13 @@ public class FiboNodeTriplet implements Triplet<FiboNode> {
     }
 
     @Override
-    public boolean validate() {
-        return x.validate() && y.validate() && z.validate();
+    public boolean validateIsPythagoreanTriple() {
+        return x.validateIsPythagoreanTriple() && y.validateIsPythagoreanTriple() && z.validateIsPythagoreanTriple();
     }
 
     @Override
-    public boolean validateRecursive() {
-        return x.validateRecursive() && y.validateRecursive() && z.validateRecursive();
+    public boolean validateIsPythagoreanTripleRecursive() {
+        return x.validateIsPythagoreanTripleRecursive() && y.validateIsPythagoreanTripleRecursive() &&
+                z.validateIsPythagoreanTripleRecursive();
     }
 }
