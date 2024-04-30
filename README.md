@@ -1,3 +1,6 @@
+# Pythagonacci
+***Calculating Pythagorean Triples from the Fibonacci Sequence in Java***
+
 Produces a Fibonacci-Pythagorean tree that (given infinite computational capacity) produces all the primitive
 pythagorean triples. It also produces all rational values in the range 0 < v < 1 if you take the left and the right
 pairs in the nodes as fractions.
