@@ -1,4 +1,4 @@
-package com.chrisdjames1.pythagonacci;
+package com.dharmacode.pythagonacci;
 
 import org.junit.Test;
 

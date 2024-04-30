@@ -1,4 +1,4 @@
-package com.chrisdjames1.pythagonacci;
+package com.dharmacode.pythagonacci;
 
 public class FiboNodeTriplet implements Triplet<FiboNode> {
 

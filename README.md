@@ -21,15 +21,17 @@ V+U  V
 We can apply three functions to these values to produce the first Pythagorean triple. If we represent the matrix as:
 ```
 a b
-c d
+d c
 ```
 then the following functions will produce the first Pythagorean triple:
 
-`(a*c)^2 + (2*(b*d))^2 = ((a*d)+(b*c))^2`
+`(a*d)^2 + (2*b*c)^2 = (a*c + b*d)^2`
 
 `(1*3)^2 + (2*(1*2))^2 = ((1*2)+(1*3))^2`
 
 `3^2 + 4^2 = 5^2`
+
+If you have watched the video then you may have noticed that the order of variables a, b, c and d has been slightly altered to assist with array indexing.
 
 We then apply three different transformations to the matrix to produce three *child* nodes. Each of the three
 transformations begin by selecting two values from the matrix as indicated by the O's shown here:
