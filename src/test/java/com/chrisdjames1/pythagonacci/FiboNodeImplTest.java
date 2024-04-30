@@ -52,7 +52,7 @@ public class FiboNodeImplTest {
 
     @Test
     public void testValidateIsPythagoreanTripleRecursiveStartWithFirst4Primes() {
-        // I think it only generates pythagorean triples if the starting sequence is "Fibonacci-like".
+        // It only generates pythagorean triples if the starting sequence is "Fibonacci-like".
         assertThrows(IllegalStateException.class,
                 () -> new FiboNodeImpl(new long[]{2, 3, 5, 7}).validateIsPythagoreanTripleRecursive());
     }
