@@ -53,7 +53,7 @@ public class FiboNodeImpl implements FiboNode {
     public FiboNodeImpl(long[] values, FiboNode parent, String relativeId) {
         this.values = values;
         this.parent = parent;
-        this.id = parent.getId() + relativeId;
+        this.id = parent != null ? parent.getId() + relativeId : relativeId;
     }
 
     @Override
