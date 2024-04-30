@@ -8,68 +8,67 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class FiboNodeTest {
 
     @Test
+    public void testDepth0() {
+        FiboNode node = FiboNodeFactory.create(0);
+        System.out.println(node.toStringRecursive());
+    }
+
+    @Test
     public void testDepth1() {
-        String fiboNodeString = new FiboNode(1).toStringRecursive();
-        System.out.println(fiboNodeString);
+        FiboNode node = FiboNodeFactory.create(1);
+        System.out.println(node.toStringRecursive());
     }
 
     @Test
     public void testDepth2() {
-        String out = new FiboNode(2).toStringRecursive();
-        System.out.println(out);
+        FiboNode node = FiboNodeFactory.create(2);
+        System.out.println(node.toStringRecursive());
     }
 
     @Test
     public void testDepth3() {
-        String out = new FiboNode(3).toStringRecursive();
-        System.out.println(out);
+        FiboNode node = FiboNodeFactory.create(3);
+        System.out.println(node.toStringRecursive());
     }
 
     @Test
     public void testDepth4() {
-        String out = new FiboNode(4).toStringRecursive();
-        System.out.println(out);
+        FiboNode node = FiboNodeFactory.create(4);
+        System.out.println(node.toStringRecursive());
     }
 
     @Test
     public void testDepthDefault() {
-        String out = new FiboNode().toStringRecursive();
-        System.out.println(out);
+        FiboNode node = FiboNodeFactory.create();
+        System.out.println(node.toStringRecursive());
     }
 
     @Test
     public void testValidateIsPythagoreanTripleRecursive() {
-        boolean isValid = new FiboNode().validateIsPythagoreanTripleRecursive();
-        assertTrue(isValid);
+        FiboNode node = FiboNodeFactory.create();
+        assertTrue(node.validateIsPythagoreanTripleRecursive());
     }
 
     @Test
     public void testValidateIsPythagoreanTripleRecursiveStartWithDoubleDefault() {
         // If you double the initial input from the default 1, 1, 2, 3, you also get pythagorean triples.
-        boolean isValid = new FiboNode(new long[]{2, 2, 4, 6}).validateIsPythagoreanTripleRecursive();
-        assertTrue(isValid);
+        FiboNode node = FiboNodeFactory.create(new Long[]{2L, 2L, 4L, 6L});
+        assertTrue(node.validateIsPythagoreanTripleRecursive());
     }
 
     @Test
     public void testValidateIsPythagoreanTripleRecursiveStartWithArbitraryFiboLikeSequence() {
         // Start with an arbitrary sequence that satisfies V-U, U, V, V+U.
-        // This gives you pythagorean triples.
-        boolean isValid = new FiboNode(new long[]{29, 29, 58, 87}).validateIsPythagoreanTripleRecursive();
-        assertTrue(isValid);
+        // This also gives you pythagorean triples.
+        FiboNode node = FiboNodeFactory.create(new Long[]{29L, 29L, 58L, 87L});
+        assertTrue(node.validateIsPythagoreanTripleRecursive());
     }
 
     @Test
     public void testValidateIsPythagoreanTripleRecursiveStartWithFirst4Primes() {
         // It only generates pythagorean triples if the starting sequence is "Fibonacci-like".
-        assertThrows(IllegalStateException.class,
-                () -> new FiboNode(new long[]{2, 3, 5, 7}).validateIsPythagoreanTripleRecursive());
-    }
-
-    @Test
-    public void testStartWithFirst4Primes() {
-        // This doesn't produce pythagorean triples but could be interesting
-        String out = new FiboNode(new long[]{2, 3, 5, 7}).toStringRecursive();
-        System.out.println(out);
+        FiboNode node = FiboNodeFactory.create(new Long[]{2L, 3L, 5L, 7L});
+        assertThrows(IllegalStateException.class, node::validateIsPythagoreanTripleRecursive);
     }
 
 }

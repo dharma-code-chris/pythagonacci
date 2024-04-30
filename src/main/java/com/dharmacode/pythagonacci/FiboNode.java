@@ -2,17 +2,15 @@ package com.dharmacode.pythagonacci;
 
 public class FiboNode {
 
-    private static final int DEFAULT_MAX_DEPTH = 5;
-    private static final long[] DEFAULT_VALUES = new long[]{1, 1, 2, 3};
     private static final int IX_A = 0;
     private static final int IX_B = 1;
     private static final int IX_C = 2;
     private static final int IX_D = 3;
 
     /**
-     * Maximum depth supported by {@link #toStringRecursive()}.
+     * How far is this node from the bottom of the tree.
      */
-    private static int maxDepth;
+    private final Integer altitude;
 
     private static final boolean PRIME_ANALYSIS = false;
 
@@ -31,35 +29,23 @@ public class FiboNode {
      * a  b
      * d  c
      */
-    private final long[] values;
+    private final Long[] values;
 
     private FiboNodeTriplet children;
 
-    public FiboNode() {
-        this(DEFAULT_MAX_DEPTH);
+    /**
+     * Constructor for root node.
+     */
+    public FiboNode(Integer altitude, Long[] values) {
+        this(altitude, values, null, "0");
     }
 
-    public FiboNode(int maxDepth) {
-        this(maxDepth, DEFAULT_VALUES);
-    }
-
-    public FiboNode(long[] values) {
-        this(DEFAULT_MAX_DEPTH, values);
-    }
-
-    public FiboNode(int maxDepth, long[] values) {
-        FiboNode.maxDepth = maxDepth;
+    public FiboNode(Integer altitude, Long[] values, FiboNode parent, String relativeId) {
+        // Descend towards the bottom of the tree by one step:
+        this.altitude = altitude - 1;
         if (values.length != 4) {
             throw new IllegalArgumentException("values must be length 4");
         }
-        this.values = values;
-        this.id = "0";
-    }
-
-    /**
-     * Constructor for spawning children.
-     */
-    public FiboNode(long[] values, FiboNode parent, String relativeId) {
         this.values = values;
         this.id = parent != null ? parent.getId() + relativeId : relativeId;
     }
@@ -77,17 +63,17 @@ public class FiboNode {
             // X: Take values b and d, move d to the top row, then Fibonacci clockwise.
             // .  b -> d  b -> d     b
             // d  . -> .  . -> d+b+b d+b
-            FiboNode x = new FiboNode(fibonacci2x2(values[IX_D], values[IX_B]), this, "X");
+            FiboNode x = new FiboNode(altitude, fibonacci2x2(values[IX_D], values[IX_B]), this, "X");
 
             // Y: Take values d and c, move them to the top row, then Fibonacci clockwise.
             // .  . -> d  c -> d     c
             // d  c -> .  . -> d+c+c d+c
-            FiboNode y = new FiboNode(fibonacci2x2(values[IX_D], values[IX_C]), this, "Y");
+            FiboNode y = new FiboNode(altitude, fibonacci2x2(values[IX_D], values[IX_C]), this, "Y");
 
             // Z: Take values a and c, move c to the top row, then Fibonacci clockwise.
             // a  . -> a  c -> a     c
             // .  c -> .  . -> a+c+c a+c
-            FiboNode z = new FiboNode(fibonacci2x2(values[IX_A], values[IX_C]), this, "Z");
+            FiboNode z = new FiboNode(altitude, fibonacci2x2(values[IX_A], values[IX_C]), this, "Z");
 
             this.children = new FiboNodeTriplet(x, y, z);
         }
@@ -95,7 +81,7 @@ public class FiboNode {
     }
 
     private boolean isEndRecursion() {
-        return this.id.length() > maxDepth;
+        return altitude < 0;
     }
 
     public String toStringRecursive() {
@@ -177,9 +163,9 @@ public class FiboNode {
      * val0        val1
      * val0+2*val1 val0+val1
      */
-    private static long[] fibonacci2x2(long val0, long val1) {
+    private static Long[] fibonacci2x2(long val0, long val1) {
         long val2 = val0 + val1;
-        return new long[]{val0, val1, val2, val2 + val1};
+        return new Long[]{val0, val1, val2, val2 + val1};
     }
 
     private static boolean isPrime(long n) {
