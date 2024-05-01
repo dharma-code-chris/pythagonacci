@@ -1,6 +1,8 @@
 # Pythagonacci Box Tree
 ***Calculating Pythagorean Triples from the Fibonacci Sequence in Java***
 
+Main article: https://dharma-code.com/wordpress/index.php/2024/04/30/calculating-pythagorean-triples-and-rational-numbers-from-fibonacci-sequence-java/
+
 Produces a Fibonacci-Pythagorean box tree that (given infinite computational capacity) produces all the primitive
 Pythagorean triples. It also produces all rational values in the range 0 < v < 1 if you take the left and the right
 pairs in the boxes as fractions.
