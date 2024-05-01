@@ -159,13 +159,14 @@ public class FiboNode {
                 (isEndRecursion() || getChildren().validateIsPythagoreanTripleRecursive());
     }
 
-    /**
-     * val0        val1
-     * val0+2*val1 val0+val1
-     */
-    private static Long[] fibonacci2x2(long val0, long val1) {
-        long val2 = val0 + val1;
-        return new Long[]{val0, val1, val2, val2 + val1};
+    private static Long[] fibonacci2x2(long a, long b) {
+        long c = a + b;
+        Long[] newValues = new Long[4];
+        newValues[IX_A] = a;
+        newValues[IX_B] = b;
+        newValues[IX_C] = c;
+        newValues[IX_D] = c + b;
+        return newValues;
     }
 
     private static boolean isPrime(long n) {
