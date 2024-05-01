@@ -1,6 +1,6 @@
 package com.dharmacode.pythagonacci;
 
-public record FiboNodeTriplet(FiboNode x, FiboNode y, FiboNode z) {
+public record PythagonacciBoxTriplet(PythagonacciBox x, PythagonacciBox y, PythagonacciBox z) {
 
     @Override
     public String toString() {

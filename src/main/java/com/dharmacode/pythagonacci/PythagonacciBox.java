@@ -1,6 +1,6 @@
 package com.dharmacode.pythagonacci;
 
-public class FiboNode {
+public class PythagonacciBox {
 
     private static final int IX_A = 0;
     private static final int IX_B = 1;
@@ -8,15 +8,15 @@ public class FiboNode {
     private static final int IX_D = 3;
 
     /**
-     * How far is this node from the bottom of the tree.
+     * How far is this box from the bottom of the tree.
      */
     private final Integer altitude;
 
     private static final boolean PRIME_ANALYSIS = false;
 
     /**
-     * The id is an address in the node tree. The root node is 0. Child nodes are X, Y or Z.
-     * e.g. id == "0XYYXZ" means that the node is located at a depth of 5 and can be found by following the path:
+     * The id is an address in the Pythagonacci Box Tree. The root box has id 0. Child boxes are X, Y or Z.
+     * e.g. id == "0XYYXZ" means that the box is located at a depth of 5 and can be found by following the path:
      * root to its child X, to its child Y, to its child Y, to its child X and finally to its child Z.
      */
     private final String id;
@@ -31,16 +31,16 @@ public class FiboNode {
      */
     private final Long[] values;
 
-    private FiboNodeTriplet children;
+    private PythagonacciBoxTriplet children;
 
     /**
-     * Constructor for root node.
+     * Constructor for root box.
      */
-    public FiboNode(Integer altitude, Long[] values) {
+    public PythagonacciBox(Integer altitude, Long[] values) {
         this(altitude, values, null, "0");
     }
 
-    public FiboNode(Integer altitude, Long[] values, FiboNode parent, String relativeId) {
+    public PythagonacciBox(Integer altitude, Long[] values, PythagonacciBox parent, String relativeId) {
         // Descend towards the bottom of the tree by one step:
         this.altitude = altitude - 1;
         if (values.length != 4) {
@@ -55,27 +55,27 @@ public class FiboNode {
     }
 
     /**
-     * Each node has 3 child nodes.
+     * Each box has 3 child boxes.
      */
-    public FiboNodeTriplet getChildren() {
+    public PythagonacciBoxTriplet getChildren() {
         if (children == null) {
             // Calculate children:
             // X: Take values b and d, move d to the top row, then Fibonacci clockwise.
             // .  b -> d  b -> d     b
             // d  . -> .  . -> d+b+b d+b
-            FiboNode x = new FiboNode(altitude, fibonacci2x2(values[IX_D], values[IX_B]), this, "X");
+            PythagonacciBox x = new PythagonacciBox(altitude, fibonacci2x2(values[IX_D], values[IX_B]), this, "X");
 
             // Y: Take values d and c, move them to the top row, then Fibonacci clockwise.
             // .  . -> d  c -> d     c
             // d  c -> .  . -> d+c+c d+c
-            FiboNode y = new FiboNode(altitude, fibonacci2x2(values[IX_D], values[IX_C]), this, "Y");
+            PythagonacciBox y = new PythagonacciBox(altitude, fibonacci2x2(values[IX_D], values[IX_C]), this, "Y");
 
             // Z: Take values a and c, move c to the top row, then Fibonacci clockwise.
             // a  . -> a  c -> a     c
             // .  c -> .  . -> a+c+c a+c
-            FiboNode z = new FiboNode(altitude, fibonacci2x2(values[IX_A], values[IX_C]), this, "Z");
+            PythagonacciBox z = new PythagonacciBox(altitude, fibonacci2x2(values[IX_A], values[IX_C]), this, "Z");
 
-            this.children = new FiboNodeTriplet(x, y, z);
+            this.children = new PythagonacciBoxTriplet(x, y, z);
         }
         return children;
     }
