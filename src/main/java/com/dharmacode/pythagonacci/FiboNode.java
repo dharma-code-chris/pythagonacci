@@ -88,6 +88,7 @@ public class FiboNode {
         return toString() + (isEndRecursion() ? "" : getChildren().toStringRecursive());
     }
 
+    @Override
     public String toString() {
         return String.format("%s: %s\n%d\t%d\n%d\t%d\n%s",
                 id, getPythagoreanTripleString(),
